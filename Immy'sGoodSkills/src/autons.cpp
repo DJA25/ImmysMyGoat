@@ -407,10 +407,10 @@ int autonskillsStart() {  // TODO: set this up today
   Right1.setBrake(hold);
   Right2.setBrake(hold);
   Right3.setBrake(hold);
-  cata.setVelocity(75, percent);
+  cata.setVelocity(80, percent);
   cata.spin(forward);
   double currentAngle = Inertial20.heading();
-  wait(19, seconds); // wait for shots
+  wait(18, seconds); // wait for shots
   // wait(3, seconds);
   cata.stop();
   flaps.set(false);
@@ -451,10 +451,13 @@ int skillsStart() {  // TODO: set this up today
   Right1.setBrake(hold);
   Right2.setBrake(hold);
   Right3.setBrake(hold);
-  cata.setVelocity(75, percent);
+  cata.setVelocity(100, percent);
+  cata.spin(forward);
+  wait(1.2, seconds);
+  cata.setVelocity(85, percent);
   cata.spin(forward);
   double currentAngle = Inertial20.heading();
-  wait(28, seconds); // wait for shots
+  wait(15, seconds); // wait for shots
   // wait(3, seconds);
   cata.stop();
   flaps.set(false);
