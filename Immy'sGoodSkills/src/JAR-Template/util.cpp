@@ -69,26 +69,28 @@ float deadband(float input, float width){
 }
 
 double angleDistance(double angle1, double angle2) {
-    double diff = std::fabs(reduce_0_to_360(angle1) - reduce_0_to_360(angle2));
-    return std::min(diff, 360 - diff);
+  // returns distance between 2 angles, given that angles "wrap around" 
+  // (5 degrees is 10 degrees away from 355 degrees)
+  double diff = std::fabs(reduce_0_to_360(angle1) - reduce_0_to_360(angle2));
+  return std::min(diff, 360 - diff);
 }
 
 double medianAngle(double angle1, double angle2, double angle3) {
-    // Normalize angles
-    angle1 = reduce_0_to_360(angle1);
-    angle2 = reduce_0_to_360(angle2);
-    angle3 = reduce_0_to_360(angle3);
+  // Normalize inertial angles to a 0 to 360 degree range
+  angle1 = reduce_0_to_360(angle1);
+  angle2 = reduce_0_to_360(angle2);
+  angle3 = reduce_0_to_360(angle3);
 
-    std::vector<double> angles = {angle1, angle2, angle3};
-    std::vector<double> distances(3, 0); // Store sums of distances to other angles
+  std::vector<double> angles = {angle1, angle2, angle3};
+  std::vector<double> distances(3, 0); // Store sums of distances to other angles
 
-    // Calculate sum of distances for each angle
-    for (int i = 0; i < 3; ++i) {
-        distances[i] = angleDistance(angles[i], angles[(i + 1) % 3]) +
-                       angleDistance(angles[i], angles[(i + 2) % 3]);
-    }
+  // Calculate sum of distances for each angle
+  for (int i = 0; i < 3; ++i) {
+      distances[i] = angleDistance(angles[i], angles[(i + 1) % 3]) +
+                      angleDistance(angles[i], angles[(i + 2) % 3]);
+  }
 
-    // Identify the angle with the minimum sum of distances (this will be the median in the circular sense)
-    int minIndex = std::distance(distances.begin(), std::min_element(distances.begin(), distances.end()));
-    return angles[minIndex];
+  // Identify the angle with the minimum sum of distances (this will be the median in the circular sense)
+  int minIndex = std::distance(distances.begin(), std::min_element(distances.begin(), distances.end()));
+  return angles[minIndex];
 }

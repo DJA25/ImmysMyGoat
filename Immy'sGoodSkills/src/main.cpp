@@ -29,7 +29,7 @@ Drive chassis(
 //ZERO_TRACKER_NO_ODOM, ZERO_TRACKER_ODOM, TANK_ONE_ENCODER, TANK_ONE_ROTATION, TANK_TWO_ENCODER, TANK_TWO_ROTATION, HOLONOMIC_TWO_ENCODER, and HOLONOMIC_TWO_ROTATION
 //For example, if you are not using odometry, put ZERO_TRACKER_NO_ODOM below:
 ZERO_TRACKER_NO_ODOM,
-//TANK_TWO_ROTATION, // skillschange
+// TANK_TWO_ROTATION, // skillschange
 //Add the names of your Drive motors into the motor groups below, separated by commas, i.e. motor_group(Motor1,Motor2,Motor3).
 //You will input whatever motor names you chose when you configured your robot using the sidebar configurer, they don't have to be "Motor1" and "Motor2".
 
@@ -88,7 +88,7 @@ PORT3,     -PORT4,
 PORT13, 
 
 //Sideways tracker diameter (reverse to make the direction switch):
--2.75,
+2.75,
 
 //Sideways tracker center distance (positive distance is behind the center of the robot, negative is in front):
 -7 // TODO: REMEASURE
@@ -234,7 +234,7 @@ void usercontrol(void) {
   Left1.stop();
   Left2.stop();
   Left3.stop();
-  /*---------------------------------------------------------------------------*/
+  /*--------------------------------------------------------------------------*/
   /*                           DRIVER SKILLS                                   */ 
   /*---------------------------------------------------------------------------*/                      
   skillsStart();  
