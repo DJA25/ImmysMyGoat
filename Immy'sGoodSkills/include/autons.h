@@ -19,3 +19,5 @@ int autonskillsStart();
 void close_side_elims();
 void close_side_new();
 void distrupt();
+void autonSkillsNoOdom();
+void autonSkillsOdom();

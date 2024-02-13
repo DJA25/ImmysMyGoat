@@ -413,10 +413,10 @@ int autonskillsStart() {  // TODO: set this up today
   Left1.spin(forward, 1, voltageUnits::volt);
   Left2.spin(forward, 1, voltageUnits::volt);
   Left3.spin(forward, 1, voltageUnits::volt);
-  cata.setVelocity(70, percent);
+  cata.setVelocity(80, percent);
   cata.spin(forward);
   double currentAngle = Inertial20.heading();
-  wait(19, seconds); // wait for shots
+  wait(17, seconds); // wait for shots
   // wait(3, seconds);
   cata.stop();
   flaps.set(false);
@@ -457,25 +457,15 @@ int skillsStart() {  // TODO: set this up today
   Right1.setBrake(hold);
   Right2.setBrake(hold);
   Right3.setBrake(hold);
-  cata.setVelocity(100, percent);
+  // cata.setVelocity(100, percent);
   cata.spin(forward);
-  wait(1.2, seconds);
+  // wait(1.2, seconds);
   cata.setVelocity(80, percent);
   cata.spin(forward);
   double currentAngle = Inertial20.heading();
-  wait(16.8, seconds); // wait for shots
+  // wait(17, seconds); // wait for shots
   // wait(3, seconds);
-  cata.stop();
-  flaps.set(false);
-  
-  Left1.setBrake(coast);
-  Left2.setBrake(coast);
-  Left3.setBrake(coast);
-  Right1.setBrake(coast);
-  Right2.setBrake(coast);
-  Right3.setBrake(coast);
 
-  wait(0.2, seconds);
   Controller1.Screen.print(currentAngle);
   return currentAngle;
 
@@ -525,158 +515,54 @@ int skillsStart() {  // TODO: set this up today
 /*---------------------------------------------------------------------------*/
 /*                            AUTON SKILLS                                   */
 /*---------------------------------------------------------------------------*/
-void autonSkillsOld() {
-
-  autonskillsStart();
-  double currentAngle = 95;
-  //shoot preload next to goal
-  
-  chassis.set_drive_exit_conditions(2.25, 300, 5000);
-  chassis.set_turn_exit_conditions(3, 300, 3000);
-  chassis.set_swing_exit_conditions(2, 300, 3000);
-
-  // cross field
-  intake.setVelocity(10, percent);
-  intake.spin(reverse);
-  
-// cross barrier
-
-  chassis.drive_distance(-5);
-  chassis.turn_to_angle(currentAngle+58);
-  chassis.drive_distance(-40);
-  chassis.turn_to_angle(currentAngle+14);
-  // wait(5, seconds);
-  chassis.set_drive_exit_conditions(2, 0, 10000);
-  chassis.set_turn_exit_conditions(2, 0, 3000);
-  chassis.set_swing_exit_conditions(2, 0, 3000);
-
-  chassis.drive_distance(-72);
-
-  chassis.set_drive_exit_conditions(2, 0, 5000);
-
-// turn for hit w/ back of bot
-
-  chassis.drive_distance(-10, currentAngle-10);
-  chassis.drive_distance(-17, currentAngle-50);
-
-  chassis.set_drive_exit_conditions(1.5, 300, 1000);
-  chassis.set_turn_exit_conditions(2, 300, 1000);
-  chassis.set_swing_exit_conditions(1, 300, 1000);
-
-// hit 1
-
-  chassis.drive_distance(-100, currentAngle-72, 12, 8);
-
-  // wait(0.25, seconds);
 
 
-// sidehit 2
-  chassis.drive_distance(10, currentAngle-67);
-  // wait(0.05, seconds);
-  drive_pls(12, false);
-  wait(1, seconds);
-  drive_stop();
+void autonSkillsNoOdom() {
 
+  chassis.set_drive_exit_conditions(1.5, 50, 5000);
+  chassis.set_turn_exit_conditions(2, 50, 3000);
+  chassis.set_swing_exit_conditions(1, 50, 3000);
 
-  intake.spin(reverse);
+  // push acorn in
 
-  currentAngle = 21;
-  intake.setVelocity(10, percent);
-  intake.spin(reverse);
+  chassis.drive_distance(-35, 0, 12, 12, 1, 300, 1000);
+  chassis.drive_distance(10, 93, 12, 6.7, 1, 50, 750); 
 
-  // setup for turn
-
-  chassis.drive_distance(7.5, 60+currentAngle);
-  flaps.set(true);
-  // chassis.drive_distance(, 60+currentAngle);
-  chassis.set_drive_exit_conditions(1.5, 0, 5000);
-  chassis.set_turn_exit_conditions(2, 0, 3000);
-  chassis.set_swing_exit_conditions(1, 0, 3000);
-
-  // the turn
-
-  chassis.drive_distance(5, 80+currentAngle, 12, 11, 1, 50, 1000); // 9, 8 if u need to switch back
-  chassis.drive_distance(9, 120+currentAngle, 12, 11, 1, 50, 1000);
-  chassis.drive_distance(5, 135+currentAngle, 12, 11, 1, 50, 1000);
-  chassis.drive_distance(13, 150+currentAngle, 12, 11, 1, 50, 1000);
-  chassis.drive_distance(10, 150+currentAngle, 12, 11, 1, 50, 1000);
-  chassis.drive_distance(13, 270+currentAngle, 12, 11, 1, 50, 1000);
-
-
-  // the push
-
-  chassis.set_drive_exit_conditions(1.5, 100, 1500);
-  chassis.drive_distance(50, 270+currentAngle, 12, 12, 2, 300, 1600);
-
-
-  // second push:
-  // flaps.set(false);
-  // wait(0.2, seconds);
-  // chassis.drive_distance(-25, 270);
-  // flaps.set(true);
-  // wait(0.2, seconds);
-  // chassis.drive_distance(35, 270, 12, 12, 2, 100, 800);
-
-
-  // backup
-
-  flaps.set(false);
   chassis.set_drive_exit_conditions(1.5, 300, 5000);
   chassis.set_turn_exit_conditions(2, 300, 3000);
   chassis.set_swing_exit_conditions(1, 300, 3000);
 
-  chassis.drive_distance(-7);
-  chassis.drive_distance(-27, 250+currentAngle, 12, 12, 1.5, 300, 1500);
-  chassis.drive_distance(5, 170+currentAngle, 8.5, 7.5);
-
-  // drive parallel to middle bar
-  chassis.drive_distance(46, 168.4+currentAngle, 7, 7, 1.5, 300, 2400);
-
-  // turn for final pushes
-
-  chassis.turn_to_angle(335, 10.5);
+ 
   flaps.set(true);
-
-  // push 1
-  chassis.drive_distance(40, 270, 12, 4, 1.5, 300, 1100);
-
+  Left1.setBrake(hold);
+  Left2.setBrake(hold);
+  Left3.setBrake(hold);
+  Right1.setBrake(hold);
+  Right2.setBrake(hold);
+  Right3.setBrake(hold);
+  Left1.spin(forward, 1, voltageUnits::volt);
+  Left2.spin(forward, 1, voltageUnits::volt);
+  Left3.spin(forward, 1, voltageUnits::volt);
+  cata.setVelocity(80, percent);
+  cata.spin(forward);
+  double currentAngle = Inertial20.heading();
+  wait(19, seconds); // wait for shots
+  // wait(3, seconds);
+  cata.stop();
   flaps.set(false);
+  
+  Left1.setBrake(coast);
+  Left2.setBrake(coast);
+  Left3.setBrake(coast);
+  Right1.setBrake(coast);
+  Right2.setBrake(coast);
+  Right3.setBrake(coast);
+
   wait(0.2, seconds);
-  chassis.drive_distance(-28);
-  flaps.set(true);
-  wait(0.2, seconds);
+  Controller1.Screen.print(currentAngle);
 
-  // // push 2
-  // chassis.drive_distance(35, 280, 12, 4, 1.5, 300, 1200);
 
-  // push in mid net
-  chassis.drive_distance(-30, 280, 12, 4, 1.5, 300, 1100);
-  // chassis.turn_to_angle(300);
-  chassis.drive_distance(50, 280, 12, 4, 1.5, 300, 1200);
-  flaps.set(false);
-
-  chassis.drive_distance(-28);
-  chassis.turn_to_angle(230);
-  chassis.drive_distance(66);
-
-  chassis.turn_to_angle(150);
-  chassis.drive_distance(10, 132);
-  // chassis.drive_distance(15, 120);
-  chassis.set_drive_exit_conditions(1.5, 0, 5000);
-  chassis.set_turn_exit_conditions(2, 0, 3000);
-  chassis.set_swing_exit_conditions(1, 0, 3000);
-  chassis.drive_distance(-16, 140);
-  chassis.drive_distance(-22, 210, 12, 7);
-  chassis.drive_distance(-20, 210, 12, 12, 1, 300, 900);
-  chassis.drive_distance(12);
-  chassis.drive_distance(-20, 210, 12, 12, 1, 300, 900);
-  chassis.drive_distance(10);
-}
-
-void autonSkills() {
-
-  autonskillsStart();
-  double currentAngle = 95;
+  currentAngle = 95;
   //shoot preload next to goal
   
   chassis.set_drive_exit_conditions(2.25, 300, 5000);
@@ -828,6 +714,307 @@ void autonSkills() {
   chassis.drive_distance(10);
 }
 
+void autonSkillsOdom() {
+
+  autonskillsStart();
+  double currentAngle = 95;
+  //shoot preload next to goal
+  
+  chassis.set_drive_exit_conditions(2.25, 300, 5000);
+  chassis.set_turn_exit_conditions(3, 300, 3000);
+  chassis.set_swing_exit_conditions(2, 300, 3000);
+
+  // cross field
+  intake.setVelocity(10, percent);
+  intake.spin(reverse);
+  
+// cross barrier
+
+  chassis.drive_distance(-5);
+  chassis.turn_to_angle(currentAngle+58);
+  chassis.drive_distance(-42);
+  chassis.turn_to_angle(currentAngle+14);
+  // wait(5, seconds);
+  chassis.set_drive_exit_conditions(2, 0, 10000);
+  chassis.set_turn_exit_conditions(2, 0, 3000);
+  chassis.set_swing_exit_conditions(2, 0, 3000);
+
+  chassis.drive_distance(-72);
+
+  chassis.set_drive_exit_conditions(2, 0, 5000);
+
+// turn for hit w/ back of bot
+
+  chassis.drive_distance(-10, currentAngle);
+  chassis.drive_distance(-17, currentAngle-45);
+
+  chassis.set_drive_exit_conditions(1.5, 300, 1000);
+  chassis.set_turn_exit_conditions(2, 300, 1000);
+  chassis.set_swing_exit_conditions(1, 300, 1000);
+
+// hit 1
+
+  chassis.drive_distance(-100, currentAngle-72, 12, 8);
+
+  // wait(0.25, seconds);
+
+
+// sidehit 2
+  chassis.drive_distance(10, currentAngle-67);
+  // wait(0.05, seconds);
+  drive_pls(12, false);
+  wait(1, seconds);
+  drive_stop();
+
+
+  intake.spin(reverse);
+
+  currentAngle = 21;
+  intake.setVelocity(10, percent);
+  intake.spin(reverse);
+ 
+  // double currentAngle = 0;
+  // setup for turn
+
+  chassis.drive_distance(15, 116+currentAngle);
+  chassis.drive_distance(40);
+  chassis.turn_to_angle(235+currentAngle);
+  flaps.set(true);
+  wait(0.1, seconds);
+  chassis.drive_distance(50, 250+currentAngle, 12, 12, 1, 300, 1200);
+
+
+// return;
+
+//   chassis.drive_distance(5, 80+currentAngle, 12, 11, 1, 50, 1000); // 9, 8 if u need to switch back
+//   chassis.drive_distance(9, 120+currentAngle, 12, 11, 1, 50, 1000);
+//   chassis.drive_distance(5, 135+currentAngle, 12, 11, 1, 50, 1000);
+//   chassis.drive_distance(13, 150+currentAngle, 12, 11, 1, 50, 1000);
+//   chassis.drive_distance(10, 150+currentAngle, 12, 11, 1, 50, 1000);
+//   chassis.drive_distance(13, 270+currentAngle, 12, 11, 1, 50, 1000);
+
+
+//   // the push
+
+//   chassis.set_drive_exit_conditions(1.5, 100, 1500);
+  // chassis.drive_distance(50, 270+currentAngle, 12, 12, 2, 300, 1600);
+
+
+  // second push:
+  // flaps.set(false);
+  // wait(0.2, seconds);
+  // chassis.drive_distance(-25, 270);
+  // flaps.set(true);
+  // wait(0.2, seconds);
+  // chassis.drive_distance(35, 270, 12, 12, 2, 100, 800);
+
+
+  // backup
+
+  flaps.set(false);
+  chassis.set_drive_exit_conditions(1.5, 300, 5000);
+  chassis.set_turn_exit_conditions(2, 300, 3000);
+  chassis.set_swing_exit_conditions(1, 300, 3000);
+
+  // currentAngle+=20;
+
+  chassis.drive_distance(-7);
+  chassis.drive_distance(-27, 250+currentAngle, 12, 12, 1.5, 300, 1500);
+  chassis.drive_distance(5, 167.5+currentAngle, 8.5, 7.5);
+
+  // drive parallel to middle bar
+  chassis.drive_distance(42, 167.5+currentAngle, 7, 7, 1.5, 300, 2400);
+
+  // turn for final pushes
+
+
+
+  chassis.turn_to_angle(335, 10.5);
+  flaps.set(true);
+
+  // push 1
+  chassis.drive_distance(40, 280, 12, 4, 1.5, 300, 1100);
+
+  flaps.set(false);
+  wait(0.2, seconds);
+  chassis.drive_distance(-28);
+  flaps.set(true);
+  wait(0.2, seconds);
+
+  // // push 2
+  // chassis.drive_distance(35, 280, 12, 4, 1.5, 300, 1200);
+
+  // push in mid net
+  chassis.drive_distance(-30, 280, 12, 4, 1.5, 300, 1100);
+  chassis.turn_to_angle(275);
+  chassis.drive_distance(50, 275, 12, 4, 1.5, 300, 1200);
+  flaps.set(false);
+
+  chassis.drive_distance(-12);
+  chassis.turn_to_angle(210);
+  chassis.drive_distance(55);
+
+  chassis.turn_to_angle(162);
+  chassis.drive_distance(20, 115);
+  chassis.turn_to_angle(93);
+  // chassis.drive_distance(15, 120);
+  chassis.set_drive_exit_conditions(1.5, 0, 1500);
+  chassis.set_turn_exit_conditions(2, 0, 1500);
+  chassis.set_swing_exit_conditions(1, 0, 1500);
+  chassis.drive_distance(-30, 135);
+  chassis.drive_distance(-30, 200, 12, 7, 1, 300, 2000);
+  // chassis.drive_distance(-20, 210, 12, 12, 1, 300, 900);
+  chassis.drive_distance(12);
+  chassis.drive_distance(-20, 190, 12, 12, 1, 300, 900);
+  chassis.drive_distance(10);
+}
+void autonSkillsOldRoute() {
+
+  autonskillsStart();
+  double currentAngle = 95;
+  //shoot preload next to goal
+  
+  chassis.set_drive_exit_conditions(2.25, 300, 5000);
+  chassis.set_turn_exit_conditions(3, 300, 3000);
+  chassis.set_swing_exit_conditions(2, 300, 3000);
+
+  // cross field
+  intake.setVelocity(10, percent);
+  intake.spin(reverse);
+  
+// cross barrier
+
+  chassis.drive_distance(-5);
+  chassis.turn_to_angle(currentAngle+58);
+  chassis.drive_distance(-40);
+  chassis.turn_to_angle(currentAngle+14);
+  // wait(5, seconds);
+  chassis.set_drive_exit_conditions(2, 0, 10000);
+  chassis.set_turn_exit_conditions(2, 0, 3000);
+  chassis.set_swing_exit_conditions(2, 0, 3000);
+
+  chassis.drive_distance(-72);
+
+  chassis.set_drive_exit_conditions(2, 0, 5000);
+
+// turn for hit w/ back of bot
+
+  chassis.drive_distance(-10, currentAngle-10);
+  chassis.drive_distance(-17, currentAngle-50);
+
+  chassis.set_drive_exit_conditions(1.5, 300, 1000);
+  chassis.set_turn_exit_conditions(2, 300, 1000);
+  chassis.set_swing_exit_conditions(1, 300, 1000);
+
+// hit 1
+
+  chassis.drive_distance(-100, currentAngle-72, 12, 8);
+
+  // wait(0.25, seconds);
+
+
+// sidehit 2
+  chassis.drive_distance(10, currentAngle-67);
+  // wait(0.05, seconds);
+  drive_pls(12, false);
+  wait(1, seconds);
+  drive_stop();
+
+
+  intake.spin(reverse);
+
+  currentAngle = 21;
+  intake.setVelocity(10, percent);
+  intake.spin(reverse);
+
+  // setup for turn
+
+  chassis.drive_distance(7.5, 60+currentAngle);
+  flaps.set(true);
+  // chassis.drive_distance(, 60+currentAngle);
+  chassis.set_drive_exit_conditions(1.5, 0, 5000);
+  chassis.set_turn_exit_conditions(2, 0, 3000);
+  chassis.set_swing_exit_conditions(1, 0, 3000);
+
+  // the turn
+
+  chassis.drive_distance(5, 80+currentAngle, 12, 11, 1, 50, 1000); // 9, 8 if u need to switch back
+  chassis.drive_distance(9, 120+currentAngle, 12, 11, 1, 50, 1000);
+  chassis.drive_distance(5, 135+currentAngle, 12, 11, 1, 50, 1000);
+  chassis.drive_distance(13, 150+currentAngle, 12, 11, 1, 50, 1000);
+  chassis.drive_distance(10, 150+currentAngle, 12, 11, 1, 50, 1000);
+  chassis.drive_distance(13, 270+currentAngle, 12, 11, 1, 50, 1000);
+
+
+  // the push
+
+  chassis.set_drive_exit_conditions(1.5, 100, 1500);
+  chassis.drive_distance(50, 270+currentAngle, 12, 12, 2, 300, 1600);
+
+
+  // second push:
+  // flaps.set(false);
+  // wait(0.2, seconds);
+  // chassis.drive_distance(-25, 270);
+  // flaps.set(true);
+  // wait(0.2, seconds);
+  // chassis.drive_distance(35, 270, 12, 12, 2, 100, 800);
+
+
+  // backup
+
+  flaps.set(false);
+  chassis.set_drive_exit_conditions(1.5, 300, 5000);
+  chassis.set_turn_exit_conditions(2, 300, 3000);
+  chassis.set_swing_exit_conditions(1, 300, 3000);
+
+  chassis.drive_distance(-7);
+  chassis.drive_distance(-27, 250+currentAngle, 12, 12, 1.5, 300, 1500);
+  chassis.drive_distance(5, 170+currentAngle, 8.5, 7.5);
+
+  // drive parallel to middle bar
+  chassis.drive_distance(46, 168.4+currentAngle, 7, 7, 1.5, 300, 2400);
+
+  // turn for final pushes
+
+  chassis.turn_to_angle(335, 10.5);
+  flaps.set(true);
+
+  // push 1
+  chassis.drive_distance(40, 270, 12, 4, 1.5, 300, 1100);
+
+  flaps.set(false);
+  wait(0.2, seconds);
+  chassis.drive_distance(-28);
+  flaps.set(true);
+  wait(0.2, seconds);
+
+  // // push 2
+  // chassis.drive_distance(35, 280, 12, 4, 1.5, 300, 1200);
+
+  // push in mid net
+  chassis.drive_distance(-30, 280, 12, 4, 1.5, 300, 1100);
+  // chassis.turn_to_angle(300);
+  chassis.drive_distance(50, 280, 12, 4, 1.5, 300, 1200);
+  flaps.set(false);
+
+  chassis.drive_distance(-28);
+  chassis.turn_to_angle(230);
+  chassis.drive_distance(66);
+
+  chassis.turn_to_angle(150);
+  chassis.drive_distance(10, 132);
+  // chassis.drive_distance(15, 120);
+  chassis.set_drive_exit_conditions(1.5, 0, 5000);
+  chassis.set_turn_exit_conditions(2, 0, 3000);
+  chassis.set_swing_exit_conditions(1, 0, 3000);
+  chassis.drive_distance(-16, 140);
+  chassis.drive_distance(-22, 210, 12, 7);
+  chassis.drive_distance(-20, 210, 12, 12, 1, 300, 900);
+  chassis.drive_distance(12);
+  chassis.drive_distance(-20, 210, 12, 12, 1, 300, 900);
+  chassis.drive_distance(10);
+}
 
 /*---------------------------------------------------------------------------*/
 

@@ -28,8 +28,8 @@ Drive chassis(
 //Specify your drive setup below. There are eight options:
 //ZERO_TRACKER_NO_ODOM, ZERO_TRACKER_ODOM, TANK_ONE_ENCODER, TANK_ONE_ROTATION, TANK_TWO_ENCODER, TANK_TWO_ROTATION, HOLONOMIC_TWO_ENCODER, and HOLONOMIC_TWO_ROTATION
 //For example, if you are not using odometry, put ZERO_TRACKER_NO_ODOM below:
-ZERO_TRACKER_NO_ODOM,
-// TANK_TWO_ROTATION, // skillschange
+// ZERO_TRACKER_NO_ODOM,
+TANK_TWO_ROTATION, // skillschange
 //Add the names of your Drive motors into the motor groups below, separated by commas, i.e. motor_group(Motor1,Motor2,Motor3).
 //You will input whatever motor names you chose when you configured your robot using the sidebar configurer, they don't have to be "Motor1" and "Motor2".
 
@@ -151,7 +151,7 @@ void autonomous(void) {
       //  close_side();
        //SafeAWP();
       //  superSafeAWP();
-      autonSkills();
+      autonSkillsNoOdom();
       // close_side_elims();
       break;      
     case 1: 
@@ -237,7 +237,24 @@ void usercontrol(void) {
   /*--------------------------------------------------------------------------*/
   /*                           DRIVER SKILLS                                   */ 
   /*---------------------------------------------------------------------------*/                      
-  skillsStart();  
+  bool skills = true;
+  if(skills) {
+    skillsStart(); 
+    while(!Controller1.ButtonA.pressing()) {
+
+    }
+    cata.stop();
+    flaps.set(false);
+    
+    Left1.setBrake(coast);
+    Left2.setBrake(coast);
+    Left3.setBrake(coast);
+    Right1.setBrake(coast);
+    Right2.setBrake(coast);
+    Right3.setBrake(coast);
+
+    wait(0.2, seconds); 
+  }
   /*---------------------------------------------------------------------------*/
   while (1) {
     /*---------------------------------------------------------------------------*/
