@@ -546,7 +546,7 @@ void autonSkillsNoOdom() {
   cata.setVelocity(80, percent);
   cata.spin(forward);
   double currentAngle = Inertial20.heading();
-  wait(19, seconds); // wait for shots
+  wait(17, seconds); // wait for shots
   // wait(3, seconds);
   cata.stop();
   flaps.set(false);
@@ -820,10 +820,10 @@ void autonSkillsOdom() {
 
   chassis.drive_distance(-7);
   chassis.drive_distance(-27, 250+currentAngle, 12, 12, 1.5, 300, 1500);
-  chassis.drive_distance(5, 167.5+currentAngle, 8.5, 7.5);
+  chassis.drive_distance(5, 172+currentAngle, 8.5, 7.5);
 
   // drive parallel to middle bar
-  chassis.drive_distance(42, 167.5+currentAngle, 7, 7, 1.5, 300, 2400);
+  chassis.drive_distance(42, 172+currentAngle, 7, 7, 1.5, 300, 2400);
 
   // turn for final pushes
 

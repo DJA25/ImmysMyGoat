@@ -221,8 +221,12 @@ void CataStop() {
 /*                                                                           */
 /*---------------------------------------------------------------------------*/
 void usercontrol(void) {
+
+  // THESE VARS ARE FOR PRESS TO START/STOP MATCHLOAD PRACTICE PROGRAMS ONLY, OTHERWISE DO NOT CHANGE:
   bool skillsTest = false;
   bool firing = false;
+
+
   //set motors and pneumatics at start of match
   flaps.set(false);
   blocker.set(false);
