@@ -21,3 +21,4 @@ void close_side_new();
 void distrupt();
 void autonSkillsNoOdom();
 void autonSkillsOdom();
+void riskyAutonSkillsOdom();
