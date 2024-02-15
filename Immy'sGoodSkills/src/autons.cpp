@@ -413,10 +413,10 @@ int autonskillsStart() {  // TODO: set this up today
   Left1.spin(forward, 1, voltageUnits::volt);
   Left2.spin(forward, 1, voltageUnits::volt);
   Left3.spin(forward, 1, voltageUnits::volt);
-  cata.setVelocity(75, percent);
+  cata.setVelocity(80, percent);
   cata.spin(forward);
   double currentAngle = Inertial20.heading();
-  wait(18, seconds); // wait for shots
+  wait(17, seconds); // wait for shots
   // wait(3, seconds);
   cata.stop();
   flaps.set(false);
