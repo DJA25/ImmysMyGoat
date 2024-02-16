@@ -93,25 +93,6 @@ void superSafeAWP() {
   chassis.drive_distance(26.5, -39, 7, 7);
   chassis.drive_distance(-1);
   intake.stop();
-
-
-
-  // return;
-  // chassis.drive_distance(-12);
-  // wait(0.5, seconds);
-  // flaps.set(true);
-  // wait(0.5, seconds);
-  // intake.spin(reverse);
-  // chassis.drive_distance(8);
-  // chassis.turn_to_angle(-40);
-  // //chassis.drive_distance(14,-40);
-  // flaps.set(false);
-  // return;
-  // wait(0.2, seconds);
-  // // wait(3, seconds);
-  // chassis.drive_distance(37);
-  // chassis.drive_distance(-1.5);
-  // intake.stop();
 }
 
 // void SafeAWP() {
@@ -202,37 +183,45 @@ void superSafeAWP() {
 /*---------------------------------------------------------------------------*/
 
 void far_side_safe() { // this is 5 ball auto
+  // outtake preload
   intake.spin(reverse);
+  // descore matchload acorn
   hang.set(true);
   wait(0.2, seconds);
   chassis.drive_distance(13);
   chassis.turn_to_angle(-45);
   hang.set(false);
   wait(0.2, seconds);
+  // score 2 acorns with back of bot
   chassis.turn_to_angle(164);
   chassis.drive_distance(-20, 145, 12, 12, 0, 0, 950);
 
-
+  // move to and intake center of middle bar acorn
   chassis.drive_distance(25, 274);
   intake.spin(forward);
-
   chassis.set_drive_exit_conditions(2.5, 100, 2000);
   chassis.set_turn_exit_conditions(2.5, 100, 1500);
-
   chassis.drive_distance(50, 274, 12, 1, 2, 300, 2000);
   chassis.turn_to_angle(305+97);
   flaps.set(true);
+
+  // outtake middle of bar acorn; score that acorn
+  // and the one in path to goal
   intake.spin(reverse);
   chassis.drive_distance(30, 305+97, 12, 1, 1, 0, 1000);
+
+  // move to other middle bar acorn and intake
   chassis.drive_distance(-15);
   flaps.set(false);
   chassis.turn_to_angle(305+90+142);
   intake.spin(forward);
+  // outtake and score it
   chassis.drive_distance(27, 305+90+142, 12, 1, 2, 300, 1000);
   chassis.drive_distance(-5);
   chassis.turn_to_angle(305+90+142-147);
   intake.spin(reverse);
   chassis.drive_distance(50, 305+90+142-147, 12, 1, 1, 300, 1200);
+  // backup to prevent touching any scored acorns and set driver up
   chassis.drive_distance(-10);
 }
 
@@ -309,27 +298,6 @@ chassis.drive_distance(45);
   wait(.5, seconds);
   drive_stop();
   chassis.drive_distance(20);
-  // chassis.drive_distance(-20, 230);
-
-  // chassis.set_drive_exit_conditions(1.5, 150, 5000);
-  // chassis.set_turn_exit_conditions(2, 150, 3000);
-  // chassis.set_swing_exit_conditions(1, 150, 3000);
-
-  // chassis.drive_distance(-12);
-  // chassis.turn_to_angle(230);
-  // chassis.drive_distance(-18, 230, 12, 12, 1, 300, 1000);
-
-  // chassis.set_drive_exit_conditions(2, 0, 5000);
-  // chassis.set_turn_exit_conditions(2, 0, 3000);
-
-  // chassis.drive_distance(-12);
-  // chassis.turn_to_angle(222);
-  // drive_pls(12, false);
-  // wait(.4, seconds);
-  // drive_stop();
-  // drive_pls(12, true);
-  // chassis.drive_distance(5);
-  // chassis.drive_distance(-16, 230, 12, 12, 1, 300, 850);
 
 }
 /*---------------------------------------------------------------------------*/
@@ -350,21 +318,17 @@ void close_side_elims() {
   intake.spin(reverse);
   chassis.drive_distance(20, 125, 12, 12, 2, 300, 1000);
   flaps.set(false);
-  // intake.stop();
   intake.spin(forward, 4, voltageUnits::volt);
 
   //go score preload
-  //chassis.drive_distance(-10);
-  //chassis.turn_to_angle(57);
   chassis.drive_distance(-40,60, 9, 12);
   chassis.drive_distance(-25,197, 12, 10, 2, 0, 0);
   drive_pls(12, false);
   wait(1.0, seconds);
   drive_stop();
-
   intake.spin(reverse);
 
-  //chassis.drive_distance(14, 165);
+  // descore matchload acorn
   chassis.drive_distance(13);
   chassis.turn_to_angle(162);
   hang.set(true);
@@ -372,8 +336,10 @@ void close_side_elims() {
   chassis.drive_distance(22);
   chassis.turn_to_angle(85);
   chassis.turn_to_angle(115);
-  // chassis.drive_distance(15);
   hang.set(false);
+
+  // push descored acorn and hang acorn over;
+  // touch elevation bar
   intake.spin(reverse);
   chassis.drive_distance(40,115);
   chassis.drive_distance(-40);
@@ -388,7 +354,7 @@ void close_side_elims() {
 /*                              SKILLS                                       */
 /*---------------------------------------------------------------------------*/
 
-int autonskillsStart() {  // TODO: set this up today
+int autonskillsStart() { 
   chassis.set_drive_exit_conditions(1.5, 50, 5000);
   chassis.set_turn_exit_conditions(2, 50, 3000);
   chassis.set_swing_exit_conditions(1, 50, 3000);
@@ -434,7 +400,7 @@ int autonskillsStart() {  // TODO: set this up today
 }
 
 
-int skillsStart() {  // TODO: set this up today
+int skillsStart() {  
 
   chassis.set_drive_exit_conditions(1.5, 50, 5000);
   chassis.set_turn_exit_conditions(2, 50, 3000);
@@ -457,61 +423,15 @@ int skillsStart() {  // TODO: set this up today
   Right1.setBrake(hold);
   Right2.setBrake(hold);
   Right3.setBrake(hold);
-  // cata.setVelocity(100, percent);
   cata.spin(forward);
-  // wait(1.2, seconds);
   cata.setVelocity(80, percent);
   cata.spin(forward);
   double currentAngle = Inertial20.heading();
-  // wait(17, seconds); // wait for shots
-  // wait(3, seconds);
 
-  Controller1.Screen.print(currentAngle);
-  return currentAngle;
-
-// OLD STUFF
-
-  chassis.set_drive_exit_conditions(1.5, 50, 5000);
-  chassis.set_turn_exit_conditions(2, 50, 3000);
-  chassis.set_swing_exit_conditions(1, 50, 3000);
-
-  // push acorn in
-
-  chassis.drive_distance(-35, 15, 12, 6, 1, 300, 1000);
-
-  chassis.drive_distance(13, 91, 12, 6.7, 1, 50, 750); 
-
-  chassis.set_drive_exit_conditions(1.5, 300, 5000);
-  chassis.set_turn_exit_conditions(2, 300, 3000);
-  chassis.set_swing_exit_conditions(1, 300, 3000);
-
- 
-  flaps.set(true);
-  Left1.setBrake(hold);
-  Left2.setBrake(hold);
-  Left3.setBrake(hold);
-  Right1.setBrake(hold);
-  Right2.setBrake(hold);
-  Right3.setBrake(hold);
-  cata.setVelocity(100, percent);
-  cata.spin(forward);
-  // double currentAngle = Inertial20.heading();
-  wait(18, seconds); // wait for shots
-  // wait(3, seconds);
-  cata.stop();
-  flaps.set(false);
-  
-  Left1.setBrake(coast);
-  Left2.setBrake(coast);
-  Left3.setBrake(coast);
-  Right1.setBrake(coast);
-  Right2.setBrake(coast);
-  Right3.setBrake(coast);
-
-  wait(0.2, seconds);
   Controller1.Screen.print(currentAngle);
   return currentAngle;
 }
+
 /*---------------------------------------------------------------------------*/
 /*                            AUTON SKILLS                                   */
 /*---------------------------------------------------------------------------*/
@@ -714,7 +634,7 @@ void autonSkillsNoOdom() {
   chassis.drive_distance(10);
 }
 //Command F FIND
-void riskyAutonSkillsOdom() { 
+void MiddleBarAutonSkillsOdom() { 
   //score 2 and begin launching
   autonskillsStart();
   //drive towards middle barrier
@@ -825,9 +745,6 @@ void riskyAutonSkillsOdom() {
   //backshot #2
   chassis.drive_distance(10);
   chassis.drive_distance(-100, 20,  12, 12, 1, 0, 500);
-  
-  
-
 }
 
 void autonSkillsOdom() {
