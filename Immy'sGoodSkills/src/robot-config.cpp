@@ -23,6 +23,7 @@ digital_out hang = digital_out(Brain.ThreeWirePort.B);
 motor cataMotorA = motor(PORT1, ratio18_1, true);
 motor cataMotorB = motor(PORT10, ratio18_1, false);
 motor_group cata = motor_group(cataMotorA, cataMotorB);
+digital_out leftHang = digital_out(Brain.ThreeWirePort.H);
 
 // VEXcode generated functions
 // define variable for remote controller enable/disable

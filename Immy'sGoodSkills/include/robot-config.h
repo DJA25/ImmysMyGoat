@@ -16,6 +16,7 @@ extern digital_out blocker;
 extern inertial Inertial20;
 extern digital_out hang;
 extern motor_group cata;
+extern digital_out leftHang;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.

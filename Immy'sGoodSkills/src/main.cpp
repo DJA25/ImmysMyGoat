@@ -16,6 +16,7 @@
 // Inertial20           inertial      20              
 // hang                 digital_out   B               
 // cata                 motor_group   1, 10           
+// leftHang             digital_out   H               
 // ---- END VEXCODE CONFIGURED DEVICES ----
 using namespace vex;
 competition Competition;
@@ -200,6 +201,10 @@ void Hang() {
   //flip value to the opposite 
   hang.set(!hang.value());
 }
+void LeftHang() {
+  //flip value to the opposite 
+  leftHang.set(!leftHang.value());
+}
 /*---------------------------------------------------------------------------*/
 
 
@@ -305,7 +310,8 @@ void usercontrol(void) {
     //Callbacks to the functions above
     Controller1.ButtonL2.pressed(Flaps);
     Controller1.ButtonB.pressed(Blocker);
-    Controller1.ButtonRight.pressed(Hang);
+    Controller1.ButtonRight.pressed(LeftHang);
+    Controller1.ButtonY.pressed(Hang);
     if(!skillsTest) {
       Controller1.ButtonL1.released(CataStop);
     }
