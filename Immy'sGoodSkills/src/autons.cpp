@@ -646,25 +646,32 @@ void riskyAutonSkillsOdom() {
   chassis.set_coordinates(0, 0, 0);
   //score 2 and begin launching
   autonskillsStart();
+
+  chassis.set_drive_exit_conditions(1.5, 100, 5000);
+  chassis.set_turn_exit_conditions(2, 100, 3000);
+  chassis.set_swing_exit_conditions(1, 100, 3000);
+
   //drive towards middle barrier
   chassis.drive_distance(-10);
-  wait(1, seconds);
+  // wait(1, seconds);
   // flaps.set(true);
   // wait(0.3,seconds);
   // flaps.set(false);
   // chassis.turn_to_angle(288);
+
+
+
   chassis.turn_to_angle(288);  
   //turn to plow the acorns
-  chassis.drive_distance(37, 288, 12, 12, 1.5, 300, 1500);
+  chassis.drive_distance(37);
   chassis.turn_to_angle(210);
   flaps.set(true);
   //push acorns
   // chassis.drive_distance(32, 210,10,10,2,0,1500);
-  chassis.drive_distance(200, 210,12,12,2,0,1400);
-  // chassis.drive_distance(-10);
-  // chassis.drive_distance(10, 160);
+  chassis.drive_distance(200, 210,12,0,2,0,1400);
   //second push
-  // chassis.drive_distance(100, 200, 12, 12, 1, 300, 300);
+  chassis.drive_distance(-10);
+  chassis.drive_distance(100, 200, 12, 12, 1, 300, 300);
   // chassis.drive_distance(-13);
   chassis.drive_to_point(-56.84, -63.50, 12, 12, 2, 300, 1000);
   // getLoc();
@@ -700,6 +707,8 @@ void riskyAutonSkillsOdom() {
   hang.set(false);
   // chassis.turn_to_point(-144.52, -50.66);
   chassis.drive_distance(-18, 155, 12, 12);
+
+  leftHang.set(true);
   // chassis.drive_to_point(-144.52, -50.66);
   //push #1
   chassis.turn_to_angle(190, 12);
@@ -708,10 +717,13 @@ void riskyAutonSkillsOdom() {
   // getLoc();
   //push #2
   chassis.drive_distance(12);
+  hang.set(false);
+  wait(0.1, seconds);
   chassis.turn_to_angle(185);
   // chassis.drive_to_point(-145.32, -44.35);
   // getLoc();
   chassis.drive_distance(-100, 190);
+  leftHang.set(false);
   // return;
   //turn to middle barrier
   chassis.drive_distance(12);
@@ -734,7 +746,7 @@ void riskyAutonSkillsOdom() {
   // hang.set(true);
   //go to spot for second push
   chassis.turn_to_angle(23);
-  chassis.drive_distance(47);
+  chassis.drive_distance(47+5);
   chassis.turn_to_angle(250);
   hang.set(false);
   wait(0.1,seconds);
@@ -761,12 +773,12 @@ void riskyAutonSkillsOdom() {
   flaps.set(false);
   wait(0.2,seconds);
   //go under alley
-  chassis.drive_distance(39);
+  chassis.drive_distance(36);
   chassis.set_drive_exit_conditions(2.5, 0, 1000);
   chassis.set_turn_exit_conditions(3, 0, 1000);
   chassis.set_swing_exit_conditions(2, 0, 1000);
   //back up a little 
-  chassis.turn_to_angle(105);
+  chassis.turn_to_angle(100);
   chassis.drive_distance(15);
   chassis.turn_to_angle(117);
   //change constants for wall rides
