@@ -415,14 +415,18 @@ int skillsStart() {
   chassis.set_turn_exit_conditions(2, 300, 3000);
   chassis.set_swing_exit_conditions(1, 300, 3000);
 
+
  
   flaps.set(true);
-  Left1.setBrake(hold);
-  Left2.setBrake(hold);
-  Left3.setBrake(hold);
-  Right1.setBrake(hold);
-  Right2.setBrake(hold);
-  Right3.setBrake(hold);
+  // Left1.setBrake(hold);
+  // Left2.setBrake(hold);
+  // Left3.setBrake(hold);
+  // Right1.setBrake(hold);
+  // Right2.setBrake(hold);
+  // Right3.setBrake(hold);
+
+  drive_pls(1, true);
+
   cata.spin(forward);
   cata.setVelocity(80, percent);
   cata.spin(forward);
