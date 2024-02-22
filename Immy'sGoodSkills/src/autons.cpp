@@ -409,7 +409,7 @@ int skillsStart() {
   // push acorn in
 
   chassis.drive_distance(-35, 0, 12, 12, 1, 300, 1000);
-  chassis.drive_distance(9, 89, 12, 6.7, 1, 50, 750); 
+  chassis.drive_distance(9, 87, 12, 6.7, 1, 50, 750); 
 
   chassis.set_drive_exit_conditions(1.5, 300, 5000);
   chassis.set_turn_exit_conditions(2, 300, 3000);
