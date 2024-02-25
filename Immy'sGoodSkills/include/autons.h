@@ -7,6 +7,7 @@ extern Drive chassis;
 
 void default_constants();
 
+void sixballsetup();
 void superSafeAWP();
 void SafeAWP();
 void far_side();
