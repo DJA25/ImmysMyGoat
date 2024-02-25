@@ -2,13 +2,34 @@
 /*---------------------------------------------------------------------------*/
 /*                              PID CONSTANTS                                */
 /*---------------------------------------------------------------------------*/
+void default_constants_odom(){
+  // Each constant set is in the form of (maxVoltage, kP, kI, kD, startI).
+
+  // chassis.set_heading_constants(12, .25, 0.2, 1.6, 0);
+  chassis.set_heading_constants(12, .165, 0, 1.55, 0);
+    // chassis.set_heading_constants(6, .4, 0, 1, 0);
+  chassis.set_turn_constants(12, .328, 0.03, 3, 15);
+
+  // chassis.set_turn_constants(12, .33, .03, 3, 15);
+  chassis.set_swing_constants(12, .3, .001, 2, 15);
+  // chassis.set_drive_constants(12, 1.688, 0.4, 0.5, 0);
+  chassis.set_drive_constants(12, 0.9, 0, 7.5, 0);
+  // chassis.set_drive_constants(12, 0.67, 0, 2, 0);
+
+  // Each exit condition set is in the form (settle_error, settle_time, timeout).
+  chassis.set_drive_exit_conditions(1.5, 300, 5000);
+  chassis.set_turn_exit_conditions(1, 300, 3000);
+  chassis.set_swing_exit_conditions(1, 300, 3000);
+}
+
+
 void default_constants(){
   // Each constant set is in the form of (maxVoltage, kP, kI, kD, startI).
 
   // chassis.set_heading_constants(12, .25, 0.2, 1.6, 0);
   chassis.set_heading_constants(12, .25, 0, 1.6, 0);
     // chassis.set_heading_constants(6, .4, 0, 1, 0);
-  chassis.set_turn_constants(12, .37, 0.03, 3, 15);
+  chassis.set_turn_constants(12, .328, 0.03, 3, 15);
 
   // chassis.set_turn_constants(12, .33, .03, 3, 15);
   chassis.set_swing_constants(12, .3, .001, 2, 15);
@@ -63,8 +84,10 @@ void setVelocity(int percentage) {
   }
 
 void pidTest() {
-  // chassis.drive_distance(25, 90);
-  chassis.turn_to_angle(90);
+  chassis.drive_distance(25, 90);
+  chassis.drive_distance(-25, 0);
+  // chassis.turn_to_angle(90);
+  // chassis.drive_distance(3);
 }
 /*---------------------------------------------------------------------------*/
 
@@ -83,14 +106,14 @@ void superSafeAWP() {
   chassis.drive_distance(13); // Descore
   intake.spin(reverse);
   // wait(0.5,seconds);
-  chassis.turn_to_angle(-75); // Spin to remove triball
+  chassis.turn_to_angle(-79); // Spin to remove triball
   hang.set(false); // pick up descore mech
   wait(0.5,seconds);
 
   // touch bar:
-  chassis.turn_to_angle(-22);
+  chassis.turn_to_angle(-33);
   chassis.drive_distance(12);
-  chassis.drive_distance(26.5, -39, 7, 7);
+  chassis.drive_distance(26.5, -45, 7, 7);
   chassis.drive_distance(-1);
   intake.stop();
 }
@@ -409,7 +432,7 @@ int skillsStart() {
   // push acorn in
 
   chassis.drive_distance(-35, 0, 12, 12, 1, 300, 1000);
-  chassis.drive_distance(9, 87, 12, 6.7, 1, 50, 750); 
+  chassis.drive_distance(12.5, 86.7, 12, 6.7, 1, 50, 750); 
 
   chassis.set_drive_exit_conditions(1.5, 300, 5000);
   chassis.set_turn_exit_conditions(2, 300, 3000);
@@ -427,13 +450,12 @@ int skillsStart() {
 
   drive_pls(1, true);
 
+  // cata.spin(forward);
+  cata.setVelocity(75, percent);
   cata.spin(forward);
-  cata.setVelocity(80, percent);
-  cata.spin(forward);
-  double currentAngle = Inertial20.heading();
 
-  // Controller1.Screen.print(currentAngle);
-  return currentAngle;
+  return 0;
+
 }
 
 /*---------------------------------------------------------------------------*/
@@ -645,11 +667,34 @@ void getLoc() {
   Controller1.Screen.newLine();
 }
 
-//Command F FIND
+//Command FIND
 void riskyAutonSkillsOdom() { 
   chassis.set_coordinates(0, 0, 0);
   //score 2 and begin launching
-  autonskillsStart();
+  // autonskillsStart();
+
+  skillsStart();
+
+  default_constants_odom();
+
+  wait(18, seconds);
+  // wait(.5, seconds);
+  cata.stop();
+  flaps.set(false);
+  
+  Left1.setBrake(coast);
+  Left2.setBrake(coast);
+  Left3.setBrake(coast);
+  Right1.setBrake(coast);
+  Right2.setBrake(coast);
+  Right3.setBrake(coast);
+  Right1.stop();
+  Right2.stop();
+  Right3.stop();
+  Left1.stop();
+  Left2.stop();
+  Left3.stop();
+  wait(0.2, seconds); 
 
   chassis.set_drive_exit_conditions(1.5, 100, 5000);
   chassis.set_turn_exit_conditions(2, 100, 3000);
@@ -667,17 +712,18 @@ void riskyAutonSkillsOdom() {
 
   chassis.turn_to_angle(288);  
   //turn to plow the acorns
-  chassis.drive_distance(37);
-  chassis.turn_to_angle(210);
+  chassis.drive_distance(35.5);
+  chassis.turn_to_angle(208.5);
   flaps.set(true);
   //push acorns
   // chassis.drive_distance(32, 210,10,10,2,0,1500);
-  chassis.drive_distance(200, 210,12,0,2,0,1400);
+  chassis.drive_distance(200, 208.5,12,0,2,0,1400);
   //second push
-  chassis.drive_distance(-10);
-  chassis.drive_distance(100, 200, 12, 12, 1, 300, 300);
-  // chassis.drive_distance(-13);
-  chassis.drive_to_point(-56.84, -63.50, 12, 12, 2, 300, 1000);
+  chassis.drive_distance(-15);
+  chassis.drive_distance(100, 208, 10, 12, 1, 300, 600);
+  wait(0.2, seconds);
+  chassis.drive_distance(-13);
+  // chassis.drive_to_point(-56.84, -63.50, 12, 12, 2, 300, 1000);
   // getLoc();
   flaps.set(false);
   //turn to back left corner
@@ -686,33 +732,42 @@ void riskyAutonSkillsOdom() {
   // Controller1.Screen.print(chassis.get_absolute_heading());
 
   // chassis.drive_distance(-41);
-  chassis.drive_to_point(-39.06, -97.87, 12, 12, 2.5, 100, 1400);
-
+  chassis.drive_to_point(-37.28, -100.99, 12, 12, 1.5, 100, 1400);
+  // chassis.drive_distance(-6, 330, 12, 12, 1.5, 100, 500);
+  // getLoc();
   //wallride
   chassis.turn_to_angle(60);
-  chassis.drive_distance(-18, 60, 12,12,1,200, 500);
+  // hang.set(true);
+  wait(0.1, seconds);
+  chassis.drive_distance(-18.2, 60, 12,4.5,1,200, 800);
   //push acorns down alley and change constants for wall rides
   chassis.turn_to_angle(108);
+  // hang.set(false);
   // chassis.turn_to_point(-125.3, -81.02);
-  chassis.set_drive_exit_conditions(1.5, 0, 1500);
-  chassis.set_turn_exit_conditions(2, 0, 1500);
-  chassis.set_swing_exit_conditions(1, 0, 1500);
-  chassis.drive_distance(-81.7, 108, 12, 12, 1.5, 0, 5000);
+  chassis.drive_distance(-84, 108, 10, 10, 1.5, 0, 5000);
+
+  // chassis.set_drive_exit_conditions(1.5, 0, 1000);
+  chassis.set_turn_exit_conditions(2, 0, 1000);
+  chassis.set_swing_exit_conditions(1, 0, 1000);
   // chassis.drive_to_point(-125.3, -81.02);
   //wall ride and score
   chassis.set_drive_exit_conditions(1.5, 0, 700);
   //complicated way of saying go around the matchload bar and push in
-  chassis.turn_to_angle(132, 12);
+  chassis.turn_to_angle(132, 10);
   // chassis.turn_to_point(-138.62, -64.84);
-  hang.set(true);
+  // hang.set(true);
+
+  leftHang.set(true);
+
   chassis.drive_distance(-20, 132, 12, 12);
   // chassis.drive_to_point(-138.62, -64.84);
   chassis.turn_to_angle(155, 12);
-  hang.set(false);
+  
   // chassis.turn_to_point(-144.52, -50.66);
   chassis.drive_distance(-18, 155, 12, 12);
-
-  leftHang.set(true);
+  // hang.set(false);
+  // wait(0.1, seconds);
+  // chassis.drive_distance(-6);
   // chassis.drive_to_point(-144.52, -50.66);
   //push #1
   chassis.turn_to_angle(190, 12);
@@ -723,35 +778,43 @@ void riskyAutonSkillsOdom() {
   chassis.drive_distance(12);
   hang.set(false);
   wait(0.1, seconds);
-  chassis.turn_to_angle(185);
+  // chassis.turn_to_angle(185);
   // chassis.drive_to_point(-145.32, -44.35);
   // getLoc();
   chassis.drive_distance(-100, 190);
+
+
+  // chassis.drive_distance(12);
+  // hang.set(false);
+  // wait(0.1, seconds);
+  // chassis.turn_to_angle(185);
+  // // chassis.drive_to_point(-145.32, -44.35);
+  // // getLoc();
+  // chassis.drive_distance(-100, 190);
+
   leftHang.set(false);
   // return;
   //turn to middle barrier
-  chassis.drive_distance(12);
-  chassis.turn_to_angle(100);
-   hang.set(true);
+  chassis.drive_distance(6); // 12
+  chassis.turn_to_angle(111); // 100
+  //  hang.set(true);
   //drive to middle barrier
-  chassis.drive_distance(50);
-  hang.set(false);
-  chassis.drive_distance(18);
-  wait(0.1,seconds);
+  chassis.drive_distance(65, 111, 12, 12, 1.5, 0, 1500);
   //grab acorns around corner
-  chassis.turn_to_angle(26,8);
-  chassis.drive_distance(3);
+  chassis.turn_to_angle(26,8); // 26
+
   flaps.set(true);
+  chassis.drive_distance(5, 18);  // 1.2
   //first front push
-  chassis.drive_distance(40,-64,12,12,4,200,1200);
+  chassis.drive_distance(40,-60,10,12,4,200,1200);
   flaps.set(false);
   //back up
   chassis.drive_distance(-40,-20);
   // hang.set(true);
   //go to spot for second push
-  chassis.turn_to_angle(23);
-  chassis.drive_distance(47+5);
-  chassis.turn_to_angle(250);
+  chassis.turn_to_angle(20);
+  chassis.drive_distance(28, 20, 12, 0, 1.5, 0, 2000);
+  chassis.turn_to_angle(275, 8);
   hang.set(false);
   wait(0.1,seconds);
   //second push
@@ -759,47 +822,293 @@ void riskyAutonSkillsOdom() {
   chassis.drive_distance(45,-64, 12,12,1,200,1200);
   //back up 
   flaps.set(false);
-  chassis.drive_distance(-20,-90);
+  chassis.drive_distance(-30,-74);
+  chassis.turn_to_angle(-106);
   //third push
   chassis.set_drive_exit_conditions(1.5, 300, 1500);
   chassis.set_turn_exit_conditions(2, 300, 1500);
   chassis.set_swing_exit_conditions(1, 300, 1500);
   flaps.set(true);
-  chassis.drive_distance(30,-64, 12, 12, 1, 300, 750);
+  chassis.drive_distance(36,-64, 10, 12, 1, 300, 900);
   flaps.set(false);
   //back up to middle barand turn to right corner
-  chassis.drive_distance(-30);
-  chassis.turn_to_angle(-4.5);
+  chassis.drive_distance(-42);
+  chassis.turn_to_angle(-12);
   flaps.set(true);
 
   //herd to corner
-  chassis.drive_distance(31);
+  chassis.drive_distance(40);
+  getLoc();
   flaps.set(false);
-  wait(0.2,seconds);
+  wait(0.1,seconds);
+
+  chassis.set_drive_exit_conditions(1.5, 0, 1000);
+  chassis.set_turn_exit_conditions(2, 0, 1000);
+  chassis.set_swing_exit_conditions(1, 0, 1000);
+
+  chassis.drive_distance(12);
+  flaps.set(true);
+  wait(0.2, seconds);
+  chassis.drive_distance(13.2, 15, 10, 4);
+  chassis.turn_to_angle(-100, 5, 1.5, 0, 1000);
+  // chassis.drive_distance(3, -100, 6, 6, 1.5, 0, 500);
+  // chassis.turn_to_angle(-100, 6);
+  flaps.set(false);
   //go under alley
-  chassis.drive_distance(36);
-  chassis.set_drive_exit_conditions(2.5, 0, 1000);
-  chassis.set_turn_exit_conditions(3, 0, 1000);
-  chassis.set_swing_exit_conditions(2, 0, 1000);
+  // chassis.drive_distance(23, -53);
+  // return;
+  // chassis.set_drive_exit_conditions(2.5, 0, 1000);
+  // chassis.set_turn_exit_conditions(3, 0, 1000);
+  // chassis.set_swing_exit_conditions(2, 0, 1000);
   //back up a little 
-  chassis.turn_to_angle(100);
-  chassis.drive_distance(15);
-  chassis.turn_to_angle(117);
+  chassis.turn_to_angle(97);
+  chassis.drive_distance(11);
+  chassis.turn_to_angle(122);
   //change constants for wall rides
 
   //wallride
-  chassis.drive_distance(-20);
-  chassis.turn_to_angle(85);
-  chassis.drive_distance(-20);
-  chassis.turn_to_angle(68);
-  chassis.drive_distance(-18);
-  //backshot
-  chassis.turn_to_angle(38);
-  chassis.drive_distance(-100, 29, 12, 12, 1, 0, 500);
+  hang.set(true);
+  chassis.drive_distance(-13);
+  chassis.turn_to_angle(78);
+  chassis.drive_distance(-19);
+  chassis.turn_to_angle(50);
+  chassis.drive_distance(-5);
+  chassis.turn_to_angle(35);
+  // chassis.drive_distance(-18);
+  // //backshot
+  // chassis.turn_to_angle(20);
+  // hang.set(true);
+  chassis.drive_distance(-100, 35, 12, 12, 1, 0, 500);
   //backshot #2
-  chassis.drive_distance(10);
-  chassis.drive_distance(-100, 29, 12, 12, 1, 0, 500);
+  chassis.drive_distance(12);
+  // chassis.turn_to_angle(30);
+  chassis.drive_distance(-100, 24, 12, 12, 1, 0, 500);
   chassis.drive_distance(5);
+  hang.set(false);
+}
+
+// BOOGIEWOOGIE
+void OLDSHITUSELESS() { 
+  chassis.set_coordinates(0, 0, 0);
+  //score 2 and begin launching
+  // autonskillsStart();
+
+  skillsStart();
+
+  default_constants_odom();
+
+  wait(18, seconds);
+  // wait(.5, seconds);
+  cata.stop();
+  flaps.set(false);
+  
+  Left1.setBrake(coast);
+  Left2.setBrake(coast);
+  Left3.setBrake(coast);
+  Right1.setBrake(coast);
+  Right2.setBrake(coast);
+  Right3.setBrake(coast);
+  Right1.stop();
+  Right2.stop();
+  Right3.stop();
+  Left1.stop();
+  Left2.stop();
+  Left3.stop();
+  wait(0.2, seconds); 
+
+  chassis.set_drive_exit_conditions(1.5, 100, 5000);
+  chassis.set_turn_exit_conditions(2, 100, 3000);
+  chassis.set_swing_exit_conditions(1, 100, 3000);
+
+  //drive towards middle barrier
+  chassis.drive_distance(-10);
+  // wait(1, seconds);
+  // flaps.set(true);
+  // wait(0.3,seconds);
+  // flaps.set(false);
+  // chassis.turn_to_angle(288);
+
+
+
+  chassis.turn_to_angle(288);  
+  //turn to plow the acorns
+  chassis.drive_distance(35.5);
+  chassis.turn_to_angle(208.5);
+  flaps.set(true);
+  //push acorns
+  // chassis.drive_distance(32, 210,10,10,2,0,1500);
+  chassis.drive_distance(200, 208.5,12,0,2,0,1400);
+  //second push
+  chassis.drive_distance(-15);
+  chassis.drive_distance(100, 208, 10, 12, 1, 300, 600);
+  wait(0.2, seconds);
+  chassis.drive_distance(-13);
+  // chassis.drive_to_point(-56.84, -63.50, 12, 12, 2, 300, 1000);
+  // getLoc();
+
+  flaps.set(false);
+  //turn to back left corner
+  chassis.turn_to_angle(330);
+
+  // Controller1.Screen.print(chassis.get_absolute_heading());
+
+  // chassis.drive_distance(-41);
+  chassis.drive_to_point(-37.28, -100.99, 12, 12, 1.5, 100, 1400);
+  // chassis.drive_distance(-6, 330, 12, 12, 1.5, 100, 500);
+  // getLoc();
+  //wallride
+  chassis.turn_to_angle(60);
+  // hang.set(true);
+  wait(0.1, seconds);
+  chassis.drive_distance(-18.2, 60, 12,4.5,1,200, 800);
+  //push acorns down alley and change constants for wall rides
+  chassis.turn_to_angle(108);
+  // hang.set(false);
+  // chassis.turn_to_point(-125.3, -81.02);
+  chassis.drive_distance(-84, 108, 10, 10, 1.5, 0, 5000);
+
+  // chassis.set_drive_exit_conditions(1.5, 0, 1000);
+  chassis.set_turn_exit_conditions(2, 0, 1000);
+  chassis.set_swing_exit_conditions(1, 0, 1000);
+  // chassis.drive_to_point(-125.3, -81.02);
+  //wall ride and score
+  chassis.set_drive_exit_conditions(1.5, 0, 700);
+  //complicated way of saying go around the matchload bar and push in
+  chassis.turn_to_angle(132, 10);
+  // chassis.turn_to_point(-138.62, -64.84);
+  // hang.set(true);
+
+  leftHang.set(true);
+
+  chassis.drive_distance(-20, 132, 12, 12);
+  // chassis.drive_to_point(-138.62, -64.84);
+  chassis.turn_to_angle(155, 12);
+  
+  // chassis.turn_to_point(-144.52, -50.66);
+  chassis.drive_distance(-18, 155, 12, 12);
+  // hang.set(false);
+  // wait(0.1, seconds);
+  // chassis.drive_distance(-6);
+  // chassis.drive_to_point(-144.52, -50.66);
+  //push #1
+  chassis.turn_to_angle(190, 12);
+  // chassis.turn_to_point(-142.10, -35.97);
+  chassis.drive_distance(-100);
+  // getLoc();
+  //push #2
+  chassis.drive_distance(12);
+  hang.set(false);
+  wait(0.1, seconds);
+  // chassis.turn_to_angle(185);
+  // chassis.drive_to_point(-145.32, -44.35);
+  // getLoc();
+  chassis.drive_distance(-100, 190);
+
+  // chassis.drive_distance(12);
+  // hang.set(false);
+  // wait(0.1, seconds);
+  // chassis.turn_to_angle(185);
+  // // chassis.drive_to_point(-145.32, -44.35);
+  // // getLoc();
+  // chassis.drive_distance(-100, 190);
+
+  leftHang.set(false);
+  // return;
+  //turn to middle barrier
+  chassis.drive_distance(12);
+  chassis.turn_to_angle(100);
+   hang.set(true);
+  //drive to middle barrier
+  // chassis.drive_distance(50);
+  chassis.drive_distance(25, 100, 7, 7);
+  flaps.set(true);
+  chassis.drive_distance(30, -50, 7, 8);
+  hang.set(false);
+  // chassis.drive_distance(18);
+  // wait(0.1,seconds);
+  // //grab acorns around corner
+  // chassis.turn_to_angle(26,8); // 26
+
+  // flaps.set(true);
+  // chassis.drive_distance(1.2, 18); 
+  //first front push
+  chassis.drive_distance(40,-60,10,12,4,200,1200);
+  flaps.set(false);
+  // return;
+  //back up
+  chassis.drive_distance(-40,-20);
+  // hang.set(true);
+  //go to spot for second push
+  chassis.turn_to_angle(20);
+  chassis.drive_distance(30.5, 20, 12, 0, 1.5, 0, 2000);
+  chassis.turn_to_angle(275, 8);
+  hang.set(false);
+  wait(0.1,seconds);
+  //second push
+  flaps.set(true);
+  chassis.drive_distance(45,-64, 12,12,1,200,1200);
+  //back up 
+  flaps.set(false);
+  chassis.drive_distance(-30,-74);
+  chassis.turn_to_angle(-106);
+  //third push
+  chassis.set_drive_exit_conditions(1.5, 300, 1500);
+  chassis.set_turn_exit_conditions(2, 300, 1500);
+  chassis.set_swing_exit_conditions(1, 300, 1500);
+  flaps.set(true);
+  chassis.drive_distance(36,-64, 10, 12, 1, 300, 900);
+  flaps.set(false);
+  //back up to middle barand turn to right corner
+  chassis.drive_distance(-30);
+  chassis.turn_to_angle(-3);
+  flaps.set(true);
+
+  //herd to corner
+  chassis.drive_distance(40, -6);
+  flaps.set(false);
+  wait(0.1,seconds);
+
+  chassis.set_drive_exit_conditions(1.5, 0, 1000);
+  chassis.set_turn_exit_conditions(2, 0, 1000);
+  chassis.set_swing_exit_conditions(1, 0, 1000);
+
+  chassis.drive_distance(12);
+  flaps.set(true);
+  wait(0.2, seconds);
+  chassis.drive_distance(15, 15, 10, 4);
+  chassis.turn_to_angle(-100, 5, 1.5, 0, 1000);
+  // chassis.drive_distance(3, -100, 6, 6, 1.5, 0, 500);
+  // chassis.turn_to_angle(-100, 6);
+  flaps.set(false);
+  //go under alley
+  // chassis.drive_distance(23, -53);
+  // return;
+  // chassis.set_drive_exit_conditions(2.5, 0, 1000);
+  // chassis.set_turn_exit_conditions(3, 0, 1000);
+  // chassis.set_swing_exit_conditions(2, 0, 1000);
+  //back up a little 
+  chassis.turn_to_angle(97);
+  chassis.drive_distance(11);
+  chassis.turn_to_angle(122);
+  //change constants for wall rides
+
+  //wallride
+  hang.set(true);
+  chassis.drive_distance(-13);
+  chassis.turn_to_angle(78);
+  chassis.drive_distance(-19);
+  chassis.turn_to_angle(35);
+  // chassis.drive_distance(-18);
+  // //backshot
+  // chassis.turn_to_angle(20);
+  // hang.set(true);
+  chassis.drive_distance(-100, 35, 12, 12, 1, 0, 500);
+  //backshot #2
+  chassis.drive_distance(12);
+  // chassis.turn_to_angle(30);
+  chassis.drive_distance(-100, 24, 12, 12, 1, 0, 500);
+  chassis.drive_distance(5);
+  hang.set(false);
 }
 
 void autonSkillsOdom() {
@@ -886,9 +1195,9 @@ void autonSkillsOdom() {
   chassis.drive_distance(20, 115);
   // build momentum and push
   chassis.turn_to_angle(93);
-  chassis.set_drive_exit_conditions(1.5, 0, 1500);
-  chassis.set_turn_exit_conditions(2, 0, 1500);
-  chassis.set_swing_exit_conditions(1, 0, 1500);
+  chassis.set_drive_exit_conditions(1.5, 0, 1000);
+  chassis.set_turn_exit_conditions(2, 0, 1000);
+  chassis.set_swing_exit_conditions(1, 0, 1000);
   // push 1
   chassis.drive_distance(-30, 135);
   chassis.drive_distance(-30, 200, 12, 7, 1, 300, 2000);
