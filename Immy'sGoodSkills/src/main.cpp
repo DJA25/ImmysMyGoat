@@ -151,8 +151,8 @@ void autonomous(void) {
       // far_side_safe();
       //  close_side();
        //SafeAWP();
-       superSafeAWP();
-      // autonSkillsNoOdom();
+      //  superSafeAWP();
+      autonSkillsNoOdom();
       // close_side_elims();
       // riskyAutonSkillsOdom(); 
       // boogiewoogie();
