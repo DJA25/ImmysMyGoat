@@ -152,9 +152,9 @@ void autonomous(void) {
       //  close_side();
        //SafeAWP();
       //  superSafeAWP();
-      autonSkillsNoOdom();
+      // autonSkillsNoOdom();
       // close_side_elims();
-      // riskyAutonSkillsOdom(); 
+      riskyAutonSkillsOdom(); 
       // boogiewoogie();
       // sixballsetup();
       break;      
